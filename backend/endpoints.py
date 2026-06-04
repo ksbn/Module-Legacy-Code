@@ -158,14 +158,17 @@ def send_bloom():
 
     user = get_current_user()
 
-    blooms.add_bloom(sender=user, content=request.json["content"])
-
+    try:
+        blooms.add_bloom(sender=user, content=request.json["content"])
+    except ValueError as error:
+        return make_response(
+            jsonify({"success": False, "message": str(error)}), 400
+    )
     return jsonify(
         {
             "success": True,
         }
     )
-
 
 def get_bloom(id_str):
     try:
