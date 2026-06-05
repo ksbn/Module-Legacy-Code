@@ -4,6 +4,7 @@ from custom_json_provider import CustomJsonProvider
 from data.users import lookup_user
 from endpoints import (
     do_follow,
+    do_rebloom,
     get_bloom,
     hashtag,
     home_timeline,
@@ -28,6 +29,8 @@ def main():
     app = Flask("PurpleForest")
 
     app.json = CustomJsonProvider(app)
+
+    app.add_url_rule("/rebloom", methods=["POST"], view_func=do_rebloom)
 
     # Configure CORS to handle preflight requests
     CORS(

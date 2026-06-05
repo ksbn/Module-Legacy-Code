@@ -20,6 +20,9 @@ const createBloom = (template, bloom) => {
   const bloomTime = bloomFrag.querySelector("[data-time]");
   const bloomTimeLink = bloomFrag.querySelector("a:has(> [data-time])");
   const bloomContent = bloomFrag.querySelector("[data-content]");
+  const bloomReblooms = bloomFrag.querySelector("[data-rebloom-count]");
+  const rebloumButton = bloomFrag.querySelector("[data-action='rebloom']");
+
 
   bloomArticle.setAttribute("data-bloom-id", bloom.id);
   bloomUsername.setAttribute("href", `/profile/${bloom.sender}`);
@@ -30,6 +33,15 @@ const createBloom = (template, bloom) => {
     ...bloomParser.parseFromString(_formatHashtags(bloom.content), "text/html")
       .body.childNodes
   );
+
+  if (bloom.rebloom_count > 0) {
+  bloomReblooms.textContent = `${bloom.rebloom_count} rebloom${bloom.rebloom_count === 1 ? "" : "s"}`;
+}
+
+rebloumButton.addEventListener("click", async () => {
+  const { apiService } = await import("../index.mjs");
+  await apiService.rebloom(bloom.id);
+});
 
   return bloomFrag;
 };

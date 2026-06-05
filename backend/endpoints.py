@@ -211,6 +211,23 @@ def user_blooms(profile_username):
     user_blooms.reverse()
     return jsonify(user_blooms)
 
+@jwt_required()
+def do_rebloom():
+    type_check_error = verify_request_fields({"bloom_id": int})
+    if type_check_error is not None:
+        return type_check_error
+
+    user = get_current_user()
+
+    try:
+        blooms.rebloom(rebloomer=user, bloom_id=request.json["bloom_id"])
+    except ValueError as error:
+        return make_response(
+            jsonify({"success": False, "message": str(error)}), 400
+        )
+
+    return jsonify({"success": True})
+
 
 @jwt_required()
 def suggested_follows(limit_str):
