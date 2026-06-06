@@ -4,6 +4,7 @@ from custom_json_provider import CustomJsonProvider
 from data.users import lookup_user
 from endpoints import (
     do_follow,
+    do_unfollow,
     get_bloom,
     hashtag,
     home_timeline,
@@ -28,6 +29,8 @@ def main():
     app = Flask("PurpleForest")
 
     app.json = CustomJsonProvider(app)
+
+    app.add_url_rule("/unfollow/<unfollow_username>", methods=["POST"], view_func=do_unfollow)
 
     # Configure CORS to handle preflight requests
     CORS(
