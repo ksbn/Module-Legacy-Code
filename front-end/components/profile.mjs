@@ -20,20 +20,6 @@ function createProfile(template, {profileData, whoToFollow, isLoggedIn}) {
   const followerCountEl = profileElement.querySelector("[data-follower-count]");
   const followButtonEl = profileElement.querySelector("[data-action='follow']");
   const unfollowButtonEl = profileElement.querySelector("[data-action='unfollow']");
-
-  const unfollowButtonEl = profileElement.querySelector("[data-action='unfollow']");
-
-// temporary debug
-if (!unfollowButtonEl) {
-  console.error("unfollowButtonEl not found in fragment!");
-} else {
-  unfollowButtonEl.setAttribute("data-username", profileData.username || "");
-  unfollowButtonEl.hidden = profileData.is_self || !profileData.is_following;
-  unfollowButtonEl.addEventListener("click", handleUnfollow);
-  if (!isLoggedIn) {
-    unfollowButtonEl.style.display = "none";
-  }
-}
   const whoToFollowContainer = profileElement.querySelector(".profile__who-to-follow");
   // Populate with data
   usernameEl.querySelector("h2").textContent = profileData.username || "";

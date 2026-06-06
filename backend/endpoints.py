@@ -152,13 +152,8 @@ def do_follow():
 
 @jwt_required()
 def do_unfollow(unfollow_username):
-    type_check_error = verify_request_fields({"unfollow_username": str})
-    if type_check_error is not None:
-        return type_check_error
-
     current_user = get_current_user()
 
-    unfollow_username = request.json["unfollow_username"]
     unfollow_user = get_user(unfollow_username)
     if unfollow_user is None:
         return make_response(
@@ -167,7 +162,6 @@ def do_unfollow(unfollow_username):
 
     unfollow(current_user, unfollow_user)
     return jsonify({"success": True})
-
 
 @jwt_required()
 def send_bloom():
